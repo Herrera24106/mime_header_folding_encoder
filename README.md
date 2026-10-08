@@ -31,3 +31,10 @@ This library handles both concerns in one call. The trade-off: folding only happ
 
 - `fold_header(value: str, max_len: int = 78) -> str` — folds an ASCII header value.
 - `fold_subject(value: str, max_len: int = 78) -> str` — encodes non-ASCII runs as RFC 2047 words, then folds.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
